@@ -14,7 +14,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor (private val repository: Repository, application: Application) : AndroidViewModel(application) {
+class MainViewModel @Inject constructor (
+    private val repository: Repository,
+    application: Application
+) : AndroidViewModel(application) {
+
     private val _response: MutableLiveData<NetworkResult<BeerResponse>> = MutableLiveData()
     val response: LiveData<NetworkResult<BeerResponse>> = _response
 

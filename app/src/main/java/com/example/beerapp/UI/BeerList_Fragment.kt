@@ -13,7 +13,6 @@ class BeerList_Fragment : Fragment() {
 
     //Method for creating new instances of the fragment.
     companion object {
-
         fun newInstance(): BeerList_Fragment {
             return BeerList_Fragment()
         }

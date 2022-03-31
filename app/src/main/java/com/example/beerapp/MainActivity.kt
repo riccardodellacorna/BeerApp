@@ -34,17 +34,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchData() {
-        mainViewModel.fetchBeerResponse()
+        mainViewModel.fetchBeerResponse()  //prendo la risposta dalla repo
         mainViewModel.response.observe(this) { response ->
             when (response) {
                 is NetworkResult.Success -> {
-                    // bind data to the view
                     Log.d("NetResults", "successoo!")
-                    /*_binding.imgDog.load(
-                        response.data.message
-                    ) {
-                        transformations(RoundedCornersTransformation(16f))
-                    }*/
+                    // bind data to the view
                 }
                 is NetworkResult.Error -> {
                     // show error message
