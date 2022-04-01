@@ -2,19 +2,18 @@ package com.example.beerapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.fragment.app.FragmentTransaction
-import com.example.beerapp.API.NetworkResult
-import com.example.beerapp.UI.BeerList_Fragment
+import com.example.beerapp.UI.BeerListFragment
 import com.example.beerapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var _binding: ActivityMainBinding
+
+
+    private val mainViewModel : MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,40 +22,28 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(_binding.root)
 
+        mainViewModel
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainerView, BeerList_Fragment.newInstance(), "beerList")
+                .replace(R.id.fragmentContainerView, BeerListFragment.newInstance(), "beerList")
                 .commit()
         }
 
-        fetchData()
+        //fetchData()
+
+        //mainViewModel.liveDataBeer.observe(this){
+        //    _binding.ciao.text = it.name
+        //}
     }
 
-    private fun fetchData() {
-        mainViewModel.fetchBeerResponse()  //prendo la risposta dalla repo
-        mainViewModel.response.observe(this) { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    Log.d("NetResults", "successoo!")
-                    // bind data to the view
-                }
-                is NetworkResult.Error -> {
-                    // show error message
-                    Log.d("NetResults", "errore!")
-                }
-                is NetworkResult.Loading -> {
-                    // show a progress bar
-                    Log.d("NetResults", "...loading...")
-                }
-            }
-        }
-    }
+    //private fun fetchData() {
+    //    mainViewModel.fetchBeerResponse()  //prendo la risposta dalla repo
+    //    val stringa : String = mainViewModel.toString()
+    //}
 
-    private fun fetchResponse() {
+    //private fun fetchResponse() {
         //mainViewModel.fetchBeerResponse()
         //binding.pbBeer.visibility = View.VISIBLE
-    }
-
-
+    //}
 }

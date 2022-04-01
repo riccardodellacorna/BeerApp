@@ -91,7 +91,6 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
     // Hilt ViewModel extension
-    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltLifeCycleVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltLifeCycleVersion"
     //for image rendering
     implementation "io.coil-kt:coil:$coilVersion"
