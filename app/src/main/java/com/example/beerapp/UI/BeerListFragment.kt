@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.example.beerapp.MainViewModel
+import com.example.beerapp.R
 import com.example.beerapp.databinding.FragmentBeerListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +22,8 @@ class BeerListFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
+    private val beerListAdapter = BeerListAdapter()
+
     companion object {
         fun newInstance(): BeerListFragment {
             return BeerListFragment()
@@ -27,21 +31,31 @@ class BeerListFragment : Fragment() {
     }
 
     //Creates the view for the fragment.
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentBeerListBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchData()
-        mainViewModel.liveDataBeer.observe(viewLifecycleOwner){
-            binding.ciaoo.text = it.name
-        }
+
+        binding.beerListRecyclerView.adapter = beerListAdapter
+        /*
+        val a = requireActivity().findViewById<RecyclerView>(R.id.beerListRecyclerView)
+        a.adapter =beerListAdapter
+         */
+
+        //mainViewModel.liveDataBeer.observe(viewLifecycleOwner){
+        //    binding.ciaoo.text = it.name
+        //}
+
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

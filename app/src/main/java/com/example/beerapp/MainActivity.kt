@@ -29,21 +29,5 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainerView, BeerListFragment.newInstance(), "beerList")
                 .commit()
         }
-
-        //fetchData()
-
-        //mainViewModel.liveDataBeer.observe(this){
-        //    _binding.ciao.text = it.name
-        //}
     }
-
-    //private fun fetchData() {
-    //    mainViewModel.fetchBeerResponse()  //prendo la risposta dalla repo
-    //    val stringa : String = mainViewModel.toString()
-    //}
-
-    //private fun fetchResponse() {
-        //mainViewModel.fetchBeerResponse()
-        //binding.pbBeer.visibility = View.VISIBLE
-    //}
 }
