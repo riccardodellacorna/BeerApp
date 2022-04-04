@@ -9,6 +9,6 @@ interface BeerAPI {
     @GET(Constants.RANDOM_URL)
     suspend fun getBeer(): Response<List<BeerAPI>> //function that can be paused and resumed at a later time
 
-    @GET()
+    @GET(".")
     suspend fun getAllBeers(): Response<List<BeerAPI>> //function that can be paused and resumed at a later time
 }

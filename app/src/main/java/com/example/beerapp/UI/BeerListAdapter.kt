@@ -1,40 +1,38 @@
 package com.example.beerapp.UI
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.beerapp.Beer
+import com.example.beerapp.Data.Beer
 import com.example.beerapp.databinding.SingleBeerRowBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
 
-//  classe Adapter per gestire la RecyclerView nel BeerListFragment
+
 class BeerListAdapter() : RecyclerView.Adapter<BeerListAdapter.ViewHolder> (){
+    private var beerList: List<Beer> = listOf()
 
-    private val beerList: List<Beer> = listOf()
+    inner class ViewHolder(val binding: SingleBeerRowBinding) : RecyclerView.ViewHolder(binding.root)
 
-    class ViewHolder(val binding: SingleBeerRowBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
-
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-
         val binding = SingleBeerRowBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         return ViewHolder(binding)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.textView.text = dataSet[position]
+        viewHolder.binding.beerDescriptionView.text = beerList[position].description
+        //viewHolder.binding.beerImageView. = beerList[position].image_url
+        viewHolder.binding.beerNameView.text = beerList[position].name
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = beerList.size
+
+    fun setBeers(beerListPassed : List<Beer>){
+        beerList = beerListPassed
+        Log.d("FRAG", "${beerList[0].description }")
+        Log.d("FRAG", "${beerList[1].description }")
+    }
 
     //crea un funz. notifyChanges per notificare l'Adapter quando ho una nuova cella nella lista
+
 }
 

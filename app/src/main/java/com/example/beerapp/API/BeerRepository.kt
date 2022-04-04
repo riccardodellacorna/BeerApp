@@ -24,7 +24,7 @@ class BeerRepository @Inject constructor(
         beerAPI.getAllBeers().let {
             if (it.isSuccessful) {
                 if (it.body().isNullOrEmpty())
-                    return Resource.Error<List<Beer>>(120)
+                    return Resource.Error(120)
 
                 // lista di birre
                 val beerList = it.body()?.map { return@map Beer.createBeer(it) } ?: listOf()

@@ -20,15 +20,15 @@ data class BeerAPI(
     val imageURL: String? = null,
 
     val abv: Double? = null,
-    val ibu: Long? = null,
+    val ibu: Double? = null,
 
     @SerializedName
         ("target_fg")
-    val targetFg: Long? = null,
+    val targetFg: Double? = null,
 
     @SerializedName
         ("target_og")
-    val targetOg: Long? = null,
+    val targetOg: Double? = null,
 
     val ebc: Double? = null,
     val srm: Double? = null,
@@ -100,5 +100,5 @@ data class Fermentation(
 
 data class MashTemp(
     val temp: BoilVolume? = null,
-    val duration: Long? = null
+    val duration: Double? = null
 )
