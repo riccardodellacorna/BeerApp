@@ -31,7 +31,6 @@ class BeerListFragment : Fragment() {
         }
     }
 
-    //Creates the view for the fragment.
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

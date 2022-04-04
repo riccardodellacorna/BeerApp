@@ -20,19 +20,16 @@ class BeerListAdapter() : RecyclerView.Adapter<BeerListAdapter.ViewHolder> (){
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.binding.beerDescriptionView.text = beerList[position].description
-        //viewHolder.binding.beerImageView. = beerList[position].image_url
+        //viewHolder.binding.beerImageView.setImageResource(beerList[position].image) = beerList[position].image_url
         viewHolder.binding.beerNameView.text = beerList[position].name
     }
 
     override fun getItemCount() = beerList.size
 
+    //crea un funz. notifyChanges per notificare l'Adapter quando ho una nuova cella nella lista
     fun setBeers(beerListPassed : List<Beer>){
         beerList = beerListPassed
-        Log.d("FRAG", "${beerList[0].description }")
-        Log.d("FRAG", "${beerList[1].description }")
+        notifyDataSetChanged()
     }
-
-    //crea un funz. notifyChanges per notificare l'Adapter quando ho una nuova cella nella lista
-
 }
 

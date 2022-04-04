@@ -2,19 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/beerNameView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:textColor="@color/white"
             android:text="NOME" />
 
         <ImageView
@@ -27,9 +30,10 @@
         <TextView
             android:id="@+id/beerDescriptionView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
             android:text="....DESCRIZIONE" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
