@@ -1,5 +1,6 @@
 package com.example.beerapp.UI
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -52,12 +53,10 @@ class BeerListFragment : Fragment() {
 
         mainViewModel.liveDataBeerList.observe(viewLifecycleOwner){
             //richiama l'adapter per settare la view
-            beerListAdapter.setBeers(it)
+            it?.let {
+                beerListAdapter.setBeers(it)
+            }
         }
-        //mainViewModel.liveDataBeer.observe(viewLifecycleOwner){
-        //    binding.ciaoo.text = it.name
-        //}
-
     }
 
     override fun onDestroyView() {
@@ -67,7 +66,5 @@ class BeerListFragment : Fragment() {
 
     private fun fetchData() {
         mainViewModel.fetchBeerResponse()  //prendo la risposta dalla repo
-        //val stringa : String = mainViewModel.toString()
-        //Log.d("FRAG", "$b")
     }
 }

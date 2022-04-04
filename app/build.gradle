@@ -94,13 +94,17 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hiltLifeCycleVersion"
     //for image rendering
     implementation "io.coil-kt:coil:$coilVersion"
-
     // For instrumentation tests
     androidTestImplementation  'com.google.dagger:hilt-android-testing:2.41'
     kaptAndroidTest 'com.google.dagger:hilt-compiler:2.41'
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.41'
     kaptTest 'com.google.dagger:hilt-compiler:2.41'
+
+    //Glide
+    //implementation 'com.github.bumptech.glide:glide:4.9.0'
+    //kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
 }
 
 kapt {

@@ -11,4 +11,7 @@ interface BeerAPI {
 
     @GET(".")
     suspend fun getAllBeers(): Response<List<BeerAPI>> //function that can be paused and resumed at a later time
+
+    /*@GET(Constants.PAGINATION)
+    suspend fun getAllBeers(): Response<List<BeerAPI>> //function that can be paused and resumed at a later time */
 }
