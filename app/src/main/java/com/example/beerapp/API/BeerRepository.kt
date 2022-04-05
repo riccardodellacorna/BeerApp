@@ -26,7 +26,6 @@ class BeerRepository @Inject constructor(
                 if (it.body().isNullOrEmpty())
                     return Resource.Error(120)
 
-                // lista di birre
                 val beerList = it.body()?.map { return@map Beer.createBeer(it) } ?: listOf()
                 return Resource.Success(beerList)
             }
