@@ -2,16 +2,17 @@ package com.example.beerapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import com.example.beerapp.UI.BeerDetailsFragment
 import com.example.beerapp.UI.BeerListFragment
 import com.example.beerapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , MainActivityInterface {
 
     private lateinit var _binding: ActivityMainBinding
-
 
     private val mainViewModel : MainViewModel by viewModels()
 
@@ -24,10 +25,24 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel
         if (savedInstanceState == null) {
+
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, BeerListFragment.newInstance(), "beerList")
                 .commit()
         }
+    }
+
+    override fun goToDetails(id: Int) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainerView, BeerDetailsFragment())
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    override fun goToList() {
+        Log.d("FRAG","click on Details - gotolist")
+        //supportFragmentManager.popBackStack()
+        onBackPressed()
     }
 }

@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22058823529411764" />
+        <entry key="app/src/main/res/layout/fragment_beer_details.xml" value="0.23007246376811594" />
         <entry key="app/src/main/res/layout/fragment_beer_list.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/single_beer_row.xml" value="0.26125539143880216" />
       </map>

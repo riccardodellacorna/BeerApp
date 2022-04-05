@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.beerapp.MainActivityInterface
 import com.example.beerapp.MainViewModel
 import com.example.beerapp.R
 import com.example.beerapp.databinding.FragmentBeerListBinding
@@ -18,19 +19,25 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class BeerListFragment : Fragment() {
 
+    private var mainActivityInterface : MainActivityInterface? = null
     private val mainViewModel : MainViewModel by activityViewModels()
     private var _binding: FragmentBeerListBinding? = null
     private val binding get() = _binding!! // This property is only valid between onCreateView and onDestroyView.
     private val beerListAdapter = BeerListAdapter()
 
+    //gestire nel viewModel
     private var pageNum = 1
     var page = -1
-    var isLoading = false
 
     companion object {
         fun newInstance(): BeerListFragment {
             return BeerListFragment()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivityInterface) mainActivityInterface = context
     }
 
     override fun onCreateView(
@@ -42,30 +49,51 @@ class BeerListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.beerListRecyclerView.adapter = beerListAdapter
+        val lmanager  = LinearLayoutManager(requireContext())
+        binding.beerListRecyclerView.layoutManager = lmanager
+
         fetchResponse()
-        setScrollListener()
+
+        //SET LISTENERS
+        setOnClickListener() //click
+        setScrollListener(lmanager)  //scroll
     }
 
-    private fun setScrollListener() {   //listener per gestire lo scroll e cambiare pagina quando non scrilla piu
-        //TODO: NON FUNZIONA
+    private fun setOnClickListener() {
+        beerListAdapter.onItemClick = { beer ->
+            Log.d("FRAG", beer.name)
+
+            //TODO:continua da qua!
+            mainViewModel.fetchBeerDetails(beer)
+
+            mainActivityInterface?.goToDetails(beer.id.toInt())
+        }
+    }
+
+    private fun setScrollListener( lmanager : LinearLayoutManager) {
         binding.beerListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                val layoutManager = LinearLayoutManager(context)
-                val visibleItemCount = layoutManager.childCount
-                val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                val visibleItemCount = lmanager.childCount
+                val pastVisibleItem = lmanager.findFirstCompletelyVisibleItemPosition()
                 val total = beerListAdapter.itemCount
                 Log.d("FRAG", "on scrolled: total $total , visible $visibleItemCount , past visible: $pastVisibleItem")
 
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (!isLoading) {
+                //TODO
+                if (dy>0) {
                     if ((visibleItemCount + pastVisibleItem) >= total) {
-                        pageNum++
-                        fetchMoreData()
+                        pageNum++ //TODO: gestisci nel viewModel
+                        fetchMoreData() //TODO: gestisci nel ViewModel
                         Log.d("FRAG", "ohhghg")
                     }
                 }
@@ -85,10 +113,4 @@ class BeerListFragment : Fragment() {
             }
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
 }

@@ -10,8 +10,16 @@ import com.example.beerapp.databinding.SingleBeerRowBinding
 
 class BeerListAdapter() : RecyclerView.Adapter<BeerListAdapter.ViewHolder> (){
     private var beerList: List<Beer> = listOf()
+    var onItemClick: ((Beer) -> Unit)? = null
 
-    inner class ViewHolder(val binding: SingleBeerRowBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: SingleBeerRowBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(beerList[adapterPosition])
+
+            }
+        }
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding = SingleBeerRowBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)

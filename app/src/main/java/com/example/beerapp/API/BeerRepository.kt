@@ -21,7 +21,7 @@ class BeerRepository @Inject constructor(
     }
 
     suspend fun getBeerList(): Resource<List<Beer>> {
-        beerAPI.getAllBeers().let {
+        beerAPI.getBeers(1, 30).let {
             if (it.isSuccessful) {
                 if (it.body().isNullOrEmpty())
                     return Resource.Error(120)

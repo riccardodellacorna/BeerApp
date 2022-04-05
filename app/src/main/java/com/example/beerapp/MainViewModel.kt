@@ -26,4 +26,12 @@ class MainViewModel @Inject constructor (
             }
         }
     }
+
+    fun fetchBeerDetails(beer: Beer){
+
+    }
+
+
+
+    //TODO: fai funzione che notifica il fatto che ho raggiunto la fine della pagina
 }
