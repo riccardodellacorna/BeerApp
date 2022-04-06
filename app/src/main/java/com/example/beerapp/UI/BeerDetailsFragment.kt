@@ -22,7 +22,7 @@ class BeerDetailsFragment : Fragment() {
     private val mainViewModel : MainViewModel by activityViewModels()
     private var _binding: FragmentBeerDetailsBinding? = null
     private val binding get() = _binding!!
-    var onItemClick: ((Beer) -> Unit)? = null
+    //var onItemClick: ((Beer) -> Unit)? = null
 
     companion object {
         fun newInstance(): BeerDetailsFragment {
@@ -50,12 +50,12 @@ class BeerDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setOnClickListener() //click
     }
 
     private fun setOnClickListener() {
         view?.setOnClickListener {
-            //onItemClick?.invoke()
             Log.d("FRAG","click on Details")
             mainActivityInterface?.goToList()
         }

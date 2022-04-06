@@ -1,9 +1,9 @@
 package com.example.beerapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.beerapp.UI.BeerDetailsFragment
 import com.example.beerapp.UI.BeerListFragment
 import com.example.beerapp.databinding.ActivityMainBinding
@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() , MainActivityInterface {
 
     override fun goToList() {
         Log.d("FRAG","click on Details - gotolist")
-        //supportFragmentManager.popBackStack()
         onBackPressed()
     }
 }

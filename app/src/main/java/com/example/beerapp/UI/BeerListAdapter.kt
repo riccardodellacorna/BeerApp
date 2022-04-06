@@ -16,7 +16,6 @@ class BeerListAdapter() : RecyclerView.Adapter<BeerListAdapter.ViewHolder> (){
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(beerList[adapterPosition])
-
             }
         }
     }
@@ -34,9 +33,16 @@ class BeerListAdapter() : RecyclerView.Adapter<BeerListAdapter.ViewHolder> (){
 
     override fun getItemCount() = beerList.size
 
+//    fun setBeers(beerListPassed : List<Beer>){
+//        val size = beerList.size
+//        beerList = beerListPassed
+//        val sizeNew = beerList.size
+//        notifyItemRangeChanged(size, sizeNew) //notifico l'Adapter
+//    }
+
     fun setBeers(beerListPassed : List<Beer>){
         val size = beerList.size
-        beerList = beerListPassed
+        beerList = beerList.plus(beerListPassed)   //TODO: AGGIUNGI LA NUOVA LISTA IN CODA ALLA LISTA GIA PRESENTE
         val sizeNew = beerList.size
         notifyItemRangeChanged(size, sizeNew) //notifico l'Adapter
     }

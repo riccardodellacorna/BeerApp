@@ -25,9 +25,6 @@ class BeerListFragment : Fragment() {
     private val binding get() = _binding!! // This property is only valid between onCreateView and onDestroyView.
     private val beerListAdapter = BeerListAdapter()
 
-    //gestire nel viewModel
-    private var pageNum = 1
-    var page = -1
 
     companion object {
         fun newInstance(): BeerListFragment {
@@ -57,14 +54,19 @@ class BeerListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.beerListRecyclerView.adapter = beerListAdapter
-        val lmanager  = LinearLayoutManager(requireContext())
-        binding.beerListRecyclerView.layoutManager = lmanager
+        val layoutManager  = LinearLayoutManager(requireContext())
+        binding.beerListRecyclerView.layoutManager = layoutManager
 
-        fetchResponse()
+        mainViewModel.fetchBeerResponse()
+        mainViewModel.liveDataBeerList.observe(viewLifecycleOwner){
+            it?.let {
+                beerListAdapter.setBeers(it)
+            }
+        }
 
-        //SET LISTENERS
+        //LISTENERS
         setOnClickListener() //click
-        setScrollListener(lmanager)  //scroll
+        setScrollListener(layoutManager)  //scroll
     }
 
     private fun setOnClickListener() {
@@ -72,45 +74,29 @@ class BeerListFragment : Fragment() {
             Log.d("FRAG", beer.name)
 
             //TODO:continua da qua!
-            mainViewModel.fetchBeerDetails(beer)
+            //mainViewModel.selectedBeer(beer)
+
 
             mainActivityInterface?.goToDetails(beer.id.toInt())
         }
     }
 
-    private fun setScrollListener( lmanager : LinearLayoutManager) {
+    private fun setScrollListener( layoutManager : LinearLayoutManager) {
         binding.beerListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-                val visibleItemCount = lmanager.childCount
-                val pastVisibleItem = lmanager.findFirstCompletelyVisibleItemPosition()
-                val total = beerListAdapter.itemCount
-                Log.d("FRAG", "on scrolled: total $total , visible $visibleItemCount , past visible: $pastVisibleItem")
-
                 super.onScrolled(recyclerView, dx, dy)
 
-                //TODO
                 if (dy>0) {
-                    if ((visibleItemCount + pastVisibleItem) >= total) {
-                        pageNum++ //TODO: gestisci nel viewModel
-                        fetchMoreData() //TODO: gestisci nel ViewModel
-                        Log.d("FRAG", "ohhghg")
+                    val pastVisibleItems = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val totalItemsCount = layoutManager.itemCount
+                    Log.d("FRAG", "on scrolled: total $totalItemsCount , past visible: $pastVisibleItems")
+
+                    if (pastVisibleItems >= totalItemsCount - 2 ){
+                        mainViewModel.openNextPage() //-----------------------------
                     }
                 }
             }
         })
-    }
-
-    private fun fetchMoreData(){
-        //TODO
-    }
-
-    private fun fetchResponse() {
-        mainViewModel.fetchBeerResponse()
-        mainViewModel.liveDataBeerList.observe(viewLifecycleOwner){
-            it?.let {
-                beerListAdapter.setBeers(it)
-            }
-        }
     }
 }

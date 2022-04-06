@@ -16,7 +16,7 @@ interface BeerAPI {
     @GET(Constants.PAGINATION_BEERS_URL)
     suspend fun getAllBeers(): Response<List<BeerAPI>>
 
-    @GET(Constants.BEERS_URL) //path: 'beers?page=2&per_page=30
+    @GET(Constants.BEERS_URL) //path: 'beers?page=2&per_page=25
     suspend fun getBeers(
         @Query("page") page : Int,
         @Query("per_page") per_page : Int

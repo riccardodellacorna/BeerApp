@@ -20,12 +20,11 @@ class BeerRepository @Inject constructor(
         }
     }
 
-    suspend fun getBeerList(): Resource<List<Beer>> {
-        beerAPI.getBeers(1, 30).let {
+    suspend fun getBeerList(page : Int, perPage : Int): Resource<List<Beer>> {
+        beerAPI.getBeers(page, perPage).let {
             if (it.isSuccessful) {
                 if (it.body().isNullOrEmpty())
                     return Resource.Error(120)
-
                 val beerList = it.body()?.map { return@map Beer.createBeer(it) } ?: listOf()
                 return Resource.Success(beerList)
             }

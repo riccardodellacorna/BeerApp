@@ -1,5 +1,6 @@
 package com.example.beerapp
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.beerapp.API.BeerRepository
 import com.example.beerapp.API.Resource
@@ -14,9 +15,12 @@ class MainViewModel @Inject constructor (
 ) : ViewModel() {
 
     val liveDataBeerList = MutableLiveData<List<Beer>>()
+    var pageNum = 1
+    var perPage = 25
+    var isLoading = false
 
     fun fetchBeerResponse() = viewModelScope.launch {
-        val resource : Resource<List<Beer>> = repository.getBeerList()
+        val resource : Resource<List<Beer>> = repository.getBeerList(pageNum, perPage)
         when (resource) {
             is Resource.Success -> {
                 liveDataBeerList.postValue(resource.data)
@@ -27,11 +31,29 @@ class MainViewModel @Inject constructor (
         }
     }
 
-    fun fetchBeerDetails(beer: Beer){
-
+    fun openNextPage(){
+        if (!isLoading){
+            Log.d("FRAG", "page num: $pageNum")
+            isLoading = true
+            pageNum++
+            fetchNextBeerResponse()
+        }
     }
 
-
+    fun fetchNextBeerResponse() = viewModelScope.launch {
+        val resource: Resource<List<Beer>> = repository.getBeerList(pageNum, perPage)
+        when (resource) {
+            is Resource.Success -> {
+                liveDataBeerList.postValue(resource.data)
+                val nameFirstBeer = liveDataBeerList.value?.get(0)?.name
+                Log.d("FRAG", "page num post Success: $pageNum , name first beer: $nameFirstBeer")
+                isLoading = false
+            }
+            is Resource.Error -> {
+                //TODO
+            }
+        }
+    }
 
     //TODO: fai funzione che notifica il fatto che ho raggiunto la fine della pagina
 }
