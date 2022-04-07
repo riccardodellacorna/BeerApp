@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() , MainActivityInterface {
 
         mainViewModel
         if (savedInstanceState == null) {
-
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView, BeerListFragment.newInstance(), "beerList")
@@ -34,10 +33,18 @@ class MainActivity : AppCompatActivity() , MainActivityInterface {
     }
 
     override fun goToDetails(id: Int) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentContainerView, BeerDetailsFragment())
-        transaction.addToBackStack(null)
-        transaction.commit()
+        Log.d("FRAG", "gotoDetails - id: $id")
+
+        val fragment = BeerDetailsFragment()
+        val bundle = Bundle()
+        bundle.putInt("beerId", id)
+        fragment.arguments = bundle
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainerView, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun goToList() {

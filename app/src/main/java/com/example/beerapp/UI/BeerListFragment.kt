@@ -66,17 +66,13 @@ class BeerListFragment : Fragment() {
 
         //LISTENERS
         setOnClickListener() //click
-        setScrollListener(layoutManager)  //scroll
+        //setScrollListener(layoutManager)  //scroll
     }
 
     private fun setOnClickListener() {
         beerListAdapter.onItemClick = { beer ->
-            Log.d("FRAG", beer.name)
-
-            //TODO:continua da qua!
-            //mainViewModel.selectedBeer(beer)
-
-
+            val id = beer.id
+            Log.d("FRAG", "list fragment - name: $id")
             mainActivityInterface?.goToDetails(beer.id.toInt())
         }
     }

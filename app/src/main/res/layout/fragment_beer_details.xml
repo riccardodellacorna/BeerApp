@@ -32,7 +32,7 @@
         <ImageView
             android:id="@+id/beerImage"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             app:srcCompat="@drawable/ic_launcher_foreground"
             android:layout_margin="10dp"/>
 
