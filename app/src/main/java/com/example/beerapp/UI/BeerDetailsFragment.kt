@@ -46,10 +46,13 @@ class BeerDetailsFragment : Fragment() {
         val index = id - 1
 
         //set view
-        binding.beerName.text = mainViewModel.liveDataBeerList.value?.get(index)?.name ?: "null"
-        binding.beerDescription.text = mainViewModel.liveDataBeerList.value?.get(index)?.description ?: "null"
-        binding.beerTagline.text = mainViewModel.liveDataBeerList.value?.get(index)?.tagline ?: "null"
-        binding.beerImage.load(mainViewModel.liveDataBeerList.value?.get(index)?.image_url)
+        mainViewModel.liveDataBeerList.value?.get(index)?.let {
+            binding.beerName.text = it.name ?: "null"
+            binding.beerDescription.text = it.description ?: "null"
+            binding.beerTagline.text = it.tagline ?: "null"
+            binding.beerImage.load(it.image_url)
+        }
+
 
         return binding.root
     }
@@ -68,8 +71,8 @@ class BeerDetailsFragment : Fragment() {
 
     private fun setOnClickListener() {
         view?.setOnClickListener {
-            Log.d("FRAG","click on Details")
-            mainActivityInterface?.goToList()
+            Log.d("FRAG","details Fragment - click on Details")
+            mainActivityInterface.goToList()
         }
     }
 }

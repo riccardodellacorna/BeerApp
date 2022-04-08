@@ -1,8 +1,8 @@
 package com.example.beerapp.UI
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.beerapp.Data.Beer
@@ -34,17 +34,15 @@ class BeerListAdapter() : RecyclerView.Adapter<BeerListAdapter.ViewHolder> (){
     override fun getItemCount() = beerList.size
 
     fun setBeers(beerListPassed : List<Beer>){
-        val size = beerList.size
-        beerList = beerListPassed
-        val sizeNew = beerList.size
-        notifyItemRangeChanged(size, sizeNew) //notifico l'Adapter
-    }
+        if(beerListPassed != beerList) {
+            val sizeOld = beerList.size
+            beerList = beerListPassed
+            val sizeNew = beerList.size
 
-    /*fun setBeers(beerListPassed : List<Beer>){
-        val size = beerList.size
-        beerList = beerList.plus(beerListPassed)   //TODO: AGGIUNGI LA NUOVA LISTA IN CODA ALLA LISTA GIA PRESENTE
-        val sizeNew = beerList.size
-        notifyItemRangeChanged(size, sizeNew) //notifico l'Adapter
-    }*/
+            Log.d("FRAG", "adapter - oldlist size: $sizeOld")
+            Log.d("FRAG", "adapter - newlist size: $sizeNew")
+            notifyItemRangeInserted(sizeOld + 1, sizeNew)
+        }
+    }
 }
 

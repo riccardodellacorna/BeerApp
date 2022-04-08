@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() , MainActivityInterface {
     }
 
     override fun goToList() {
-        Log.d("FRAG","click on Details - gotolist")
+        Log.d("FRAG","gotolist")
         onBackPressed()
     }
 }

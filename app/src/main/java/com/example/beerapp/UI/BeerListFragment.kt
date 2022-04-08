@@ -35,6 +35,7 @@ class BeerListFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainActivityInterface) mainActivityInterface = context
+
     }
 
     override fun onCreateView(
@@ -57,7 +58,6 @@ class BeerListFragment : Fragment() {
         val layoutManager  = LinearLayoutManager(requireContext())
         binding.beerListRecyclerView.layoutManager = layoutManager
 
-        mainViewModel.fetchBeerResponse()
         mainViewModel.liveDataBeerList.observe(viewLifecycleOwner){
             it?.let {
                 beerListAdapter.setBeers(it)
@@ -66,7 +66,7 @@ class BeerListFragment : Fragment() {
 
         //LISTENERS
         setOnClickListener() //click
-        //setScrollListener(layoutManager)  //scroll
+        setScrollListener(layoutManager)  //scroll
     }
 
     private fun setOnClickListener() {
@@ -79,20 +79,29 @@ class BeerListFragment : Fragment() {
 
     private fun setScrollListener( layoutManager : LinearLayoutManager) {
         binding.beerListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (dy>0) {
-                    val pastVisibleItems = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val pastVisibleItems = layoutManager.findLastVisibleItemPosition()
                     val totalItemsCount = layoutManager.itemCount
                     Log.d("FRAG", "on scrolled: total $totalItemsCount , past visible: $pastVisibleItems")
 
-                    if (pastVisibleItems >= totalItemsCount - 2 ){
-                        mainViewModel.openNextPage() //-----------------------------
+                    if (pastVisibleItems >= totalItemsCount - 1 ){
+                        Log.d("FRAG", "on scrolled: carico pagina nuova")
+                        openNextPage()
                     }
                 }
+
             }
         })
+    }
+
+    fun isLoading () : Boolean{
+        return mainViewModel.isLoading
+    }
+
+    fun openNextPage(){
+        mainViewModel.openNextPage()
     }
 }
