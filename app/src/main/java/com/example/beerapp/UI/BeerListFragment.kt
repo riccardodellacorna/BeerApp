@@ -25,7 +25,6 @@ class BeerListFragment : Fragment() {
     private val binding get() = _binding!! // This property is only valid between onCreateView and onDestroyView.
     private val beerListAdapter = BeerListAdapter()
 
-
     companion object {
         fun newInstance(): BeerListFragment {
             return BeerListFragment()
@@ -60,7 +59,15 @@ class BeerListFragment : Fragment() {
 
         mainViewModel.liveDataBeerList.observe(viewLifecycleOwner){
             it?.let {
+                //binding.progressBar.setVisibility(View.INVISIBLE);
                 beerListAdapter.setBeers(it)
+            }
+        }
+
+        mainViewModel.liveDataIsLoading.observe(viewLifecycleOwner){
+            it.let {
+                if (it) binding.progressBar.setVisibility(View.VISIBLE);
+                else    binding.progressBar.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -92,16 +99,15 @@ class BeerListFragment : Fragment() {
                         openNextPage()
                     }
                 }
-
             }
         })
     }
 
-    fun isLoading () : Boolean{
-        return mainViewModel.isLoading
-    }
-
     fun openNextPage(){
-        mainViewModel.openNextPage()
+        if (!mainViewModel.liveDataIsLoading.value!!){ //isLoading = false
+            //--------new
+            //binding.progressBar.setVisibility(View.VISIBLE);
+            mainViewModel.openNextPage()
+        }
     }
 }

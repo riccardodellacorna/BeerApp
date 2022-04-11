@@ -53,7 +53,6 @@ class BeerDetailsFragment : Fragment() {
             binding.beerImage.load(it.image_url)
         }
 
-
         return binding.root
     }
 

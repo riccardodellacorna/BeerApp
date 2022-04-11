@@ -17,9 +17,17 @@ class MainViewModel @Inject constructor (
     val liveDataBeerList = MutableLiveData<List<Beer>>()
     var pageNum = 1
     var perPage = 10
-    var isLoading = false
+
+    //var isLoading = false
+    private var isLoading = false
+    set(value) {
+        field = value
+        liveDataIsLoading.postValue(value)
+    }
+    var liveDataIsLoading = MutableLiveData<Boolean>()
 
     init {
+        liveDataIsLoading.postValue(false)
         fetchBeerResponse()
     }
 
@@ -36,12 +44,10 @@ class MainViewModel @Inject constructor (
     }
 
     fun openNextPage(){
-        if(!isLoading){  //isLoading = false
-            isLoading = true
-            Log.d("FRAG", "page num: $pageNum")
-            pageNum++
-            fetchNextBeerResponse()
-        }
+        liveDataIsLoading.postValue(true) //isLoading = true
+        Log.d("FRAG", "page num: $pageNum")
+        pageNum++
+        fetchNextBeerResponse()
     }
 
     fun fetchNextBeerResponse() = viewModelScope.launch {
@@ -53,17 +59,15 @@ class MainViewModel @Inject constructor (
                 val a = mutableListOf<Beer>()
                 a.addAll((liveDataBeerList.value ?: listOf()))
                 a.addAll(resource.data)
-                
-                liveDataBeerList.postValue(a) //aggiorno il live data
+
+                liveDataBeerList.postValue(a)
 
                 Log.d("FRAG", "new page: $pageNum")
-                isLoading = false
+                liveDataIsLoading.postValue(false) //isLoading = false
             }
             is Resource.Error -> {
                 //TODO
             }
         }
     }
-
-    //TODO: fai funzione che notifica il fatto che ho raggiunto la fine della pagina
 }
